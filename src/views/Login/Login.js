@@ -1,16 +1,23 @@
 import { useFormik } from "formik";
 import React from "react";
 import { Button, Container, Form } from "react-bootstrap";
+import { useHistory } from "react-router";
 import * as yup from "yup";
 
 const validationSchema = yup.object().shape({
-  uuid: yup.string().required(),
+  email: yup.string().email().required(),
+  password: yup.string().required(),
 });
 
 const Login = ({ onCreateNewId = () => {} }) => {
-  const handleLogin = React.useCallback((data) => {
-    console.log(data);
-  }, []);
+  const history = useHistory();
+
+  const handleLogin = React.useCallback(
+    (data) => {
+      history.push("/auth", data);
+    },
+    [history]
+  );
 
   const handleCreateNewId = React.useCallback(() => {
     onCreateNewId();
@@ -18,7 +25,7 @@ const Login = ({ onCreateNewId = () => {} }) => {
 
   const formik = useFormik({
     initialValues: {
-      uuid: "",
+      email: "",
     },
     onSubmit: handleLogin,
     validationSchema,
@@ -31,17 +38,31 @@ const Login = ({ onCreateNewId = () => {} }) => {
     >
       <Form className="w-100" onSubmit={formik.handleSubmit}>
         <Form.Group>
-          <Form.Label>Enter your account id</Form.Label>
+          <Form.Label>Your email</Form.Label>
           <Form.Control
-            type="text"
-            id="uuid"
-            name="uuid"
+            type="email"
+            id="email"
+            name="email"
             onChange={formik.handleChange}
-            value={formik.values.uuid}
-            isInvalid={formik.errors.uuid}
+            value={formik.values.email}
+            isInvalid={formik.errors.email}
           />
           <Form.Control.Feedback type="invalid">
-            Your account id is required
+            {formik.errors.email}
+          </Form.Control.Feedback>
+        </Form.Group>
+        <Form.Group>
+          <Form.Label>Your password</Form.Label>
+          <Form.Control
+            type="password"
+            id="password"
+            name="password"
+            onChange={formik.handleChange}
+            value={formik.values.password}
+            isInvalid={formik.errors.password}
+          />
+          <Form.Control.Feedback type="invalid">
+            {formik.errors.password}
           </Form.Control.Feedback>
         </Form.Group>
         <Button name="login" type="submit" className="mr-2">

@@ -1,14 +1,12 @@
 import React, { Suspense } from "react";
-
-const Auth = React.lazy(() => import("../_auth/Auth"));
+import Loading from "./Loading";
+import Auth from "../_auth/Auth";
 
 function App() {
   return (
-    <div className="App">
-      <Suspense fallback={<></>}>
-        <Auth />
-      </Suspense>
-    </div>
+    <Suspense fallback={<Loading text="Thinking..."></Loading>}>
+      <Auth />
+    </Suspense>
   );
 }
 

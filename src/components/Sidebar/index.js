@@ -4,7 +4,8 @@ import Contacts from "../Contacts";
 import Conversations from "../Conversations";
 import NewContactModal from "../NewContactModal";
 import NewConversationModal from "../NewConversationModal";
-import useLocalStorage from "../../_hooks/useLocalStorage";
+import { useSelector } from "react-redux";
+import { authSelector } from "../../slices/auth/authSlice";
 
 const CONVERSATION_KEY = "conver_key";
 const CONTACT_KEY = "contact_key";
@@ -14,7 +15,7 @@ const SideBar = ({ ...props }) => {
   const [modalOpen, setModalOpen] = React.useState(false);
 
   const isConversationOpen = activeKey === CONVERSATION_KEY;
-  const [uuid] = useLocalStorage("id");
+  const userInfo = useSelector(authSelector);
 
   const handleOpenModal = React.useCallback(() => {
     setModalOpen(true);
@@ -41,7 +42,7 @@ const SideBar = ({ ...props }) => {
           </Tab.Pane>
         </Tab.Content>
         <div className="p-2 border-top border-right small">
-          UUID <span className="text-muted">{uuid}</span>
+          UUID <span className="text-muted">{userInfo.uuid}</span>
         </div>
         <Button className="rounded-0" onClick={handleOpenModal}>
           New {isConversationOpen ? "Conversation" : "Contact"}
