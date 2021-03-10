@@ -3,7 +3,7 @@ import { ListGroup } from "react-bootstrap";
 
 const ContactItem = ({
   uuid = "",
-  nickname = "",
+  nickname = " ",
   ...props
 }) => {
   return (
