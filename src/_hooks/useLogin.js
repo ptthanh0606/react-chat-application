@@ -7,22 +7,28 @@ export const useLogin = () => {
   const dispatch = useDispatch();
 
   const [info, setInfo] = React.useState({});
+  const [isAuthenticated, setAuthenticatedState] = React.useState(false);
 
   React.useEffect(() => {
     axios
       .post("http://localhost:5000/api/user/login", info)
       .then((result) => {
-        dispatch(setUserInfo(result.data.data));
+        if (result) {
+          dispatch(setUserInfo(result.data.data));
+          setAuthenticatedState(true);
+        } else setAuthenticatedState(false);
       })
-      .catch((err) => {
-        console.log(err.response.data);
+      .catch(() => {
+        setAuthenticatedState(false);
       });
   }, [dispatch, info]);
 
   return (loginInfo) =>
     new Promise((resolve, reject) => {
       setInfo(loginInfo);
-      resolve();
+      if (isAuthenticated) {
+        resolve();
+      } else reject();
     });
 };
 

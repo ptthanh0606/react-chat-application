@@ -26,9 +26,14 @@ const Auth = () => {
 
   React.useEffect(() => {
     if (loginInfo) {
-      login(loginInfo).then(() => {
-        history.push("/my-dashboard");
-      });
+      login(loginInfo)
+        .then(() => {
+          history.push("/my-dashboard");
+        })
+        .catch(() => {
+          console.log("Hello");
+          history.push("/login");
+        });
     } else {
       history.push("/login");
     }

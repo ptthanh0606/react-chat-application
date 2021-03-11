@@ -11,21 +11,32 @@ const Authorize = ({ ...props }) => {
   const history = useHistory();
   const login = useLogin();
   const [loginInfo, setLoginInfo] = useLocalStorage("USER_CREDENTIAL");
-  const [isAuthorized, setAuthorizedState] = React.useState(false);
+  const [loadingLabel, setLoadingLabel] = React.useState("Please wait...");
 
   React.useEffect(() => {
-    login(routeParam).then(() => {
-      setTimeout(() => {
-        setAuthorizedState(true);
-        setLoginInfo(routeParam);
+    setLoadingLabel("Login in...");
+    login(routeParam)
+      .then(() => {
         setTimeout(() => {
-          history.push("/my-dashboard");
+          setLoadingLabel("Welcome");
+          setLoginInfo(routeParam);
+          setTimeout(() => {
+            history.push("/my-dashboard");
+          }, 2000);
         }, 2000);
-      }, 1000);
-    });
-  }, [history, login, routeParam, setLoginInfo]);
+      })
+      .catch(() => {
+        setTimeout(() => {
+          setLoadingLabel("There is something wrong with the server...");
+          setTimeout(() => {
+            history.push("/login");
+          }, 2000);
+        }, 2000);
+      });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-  return <Loading text={isAuthorized ? "Logged in" : "Login in..."}></Loading>;
+  return <Loading text={loadingLabel} />;
 };
 
 export default React.memo(Authorize);
