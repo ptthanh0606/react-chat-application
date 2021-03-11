@@ -27,7 +27,7 @@ const Authorize = ({ ...props }) => {
       })
       .catch(() => {
         setTimeout(() => {
-          setLoadingLabel("There is something wrong with the server...");
+          setLoadingLabel("There is something wrong...");
           setTimeout(() => {
             history.push("/login");
           }, 2000);

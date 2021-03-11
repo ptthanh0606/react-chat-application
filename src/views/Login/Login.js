@@ -1,8 +1,10 @@
 import { useFormik } from "formik";
 import React from "react";
 import { Button, Container, Form } from "react-bootstrap";
+import { useSelector } from "react-redux";
 import { useHistory } from "react-router";
 import * as yup from "yup";
+import { loginMessageSelector } from "../../slices/auth/loginMessage";
 
 const validationSchema = yup.object().shape({
   email: yup.string().email().required(),
@@ -11,6 +13,7 @@ const validationSchema = yup.object().shape({
 
 const Login = ({ onCreateNewId = () => {} }) => {
   const history = useHistory();
+  const loginMessage = useSelector(loginMessageSelector);
 
   const handleLogin = React.useCallback(
     (data) => {
@@ -40,9 +43,11 @@ const Login = ({ onCreateNewId = () => {} }) => {
         <Form.Group>
           <Form.Label>Your email</Form.Label>
           <Form.Control
+            autoFocus="true"
             type="email"
             id="email"
             name="email"
+            autoComplete="username"
             onChange={formik.handleChange}
             value={formik.values.email}
             isInvalid={formik.errors.email}
@@ -57,6 +62,7 @@ const Login = ({ onCreateNewId = () => {} }) => {
             type="password"
             id="password"
             name="password"
+            autoComplete="current-password"
             onChange={formik.handleChange}
             value={formik.values.password}
             isInvalid={formik.errors.password}
@@ -75,6 +81,7 @@ const Login = ({ onCreateNewId = () => {} }) => {
         >
           Create new account id
         </Button>
+        <span className="ml-2 text-danger">{loginMessage}</span>
       </Form>
     </Container>
   );
