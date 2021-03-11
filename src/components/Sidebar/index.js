@@ -22,7 +22,7 @@ const SideBar = ({ ...props }) => {
   }, []);
 
   return (
-    <div className="d-flex flex-column" style={{ width: "250px" }} {...props}>
+    <div {...props}>
       <Tab.Container activeKey={activeKey} onSelect={setActiveKey}>
         <Nav variant="tabs">
           <Nav.Item>
