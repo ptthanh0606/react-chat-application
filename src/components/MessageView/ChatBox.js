@@ -1,13 +1,46 @@
+import axios from "axios";
 import { useFormik } from "formik";
 import React from "react";
 import { Button, Form } from "react-bootstrap";
 import { IoPaperPlane } from "react-icons/io5";
+import { useSelector } from "react-redux";
+import { authSelector } from "../../slices/auth/authSlice";
+import { selectedsSelector } from "../../slices/selecteds";
+import socket from "../../_utils/socket";
 
-const ChatBox = ({ ...props }) => {
-  const handleChatSend = React.useCallback((data, { resetForm }) => {
-    console.log(data);
-    resetForm();
-  }, []);
+const ChatBox = ({ setMessages = () => {}, ...props }) => {
+  const { uuid } = useSelector(authSelector);
+  const { conversationId } = useSelector(selectedsSelector);
+
+  const handleChatSend = React.useCallback(
+    ({ chatContent }, { resetForm }) => {
+      if (chatContent) {
+        setMessages((prev) => [
+          ...prev,
+          {
+            content: chatContent,
+            nickname: uuid,
+          },
+        ]);
+        axios
+          .put(
+            `http://localhost:5000/api/message/sendMessage?conversationId=${conversationId}`,
+            {
+              content: chatContent,
+              uuid,
+            }
+          )
+          .then(() => {
+            socket.emit("CLIENT_MESSAGE_SEND", {
+              content: chatContent,
+              uuid,
+            });
+            resetForm();
+          });
+      }
+    },
+    [conversationId, setMessages, uuid]
+  );
 
   const formik = useFormik({
     initialValues: {

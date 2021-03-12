@@ -49,7 +49,6 @@ const Contacts = () => {
         contacts.map((contact, idx) => (
           <ContactItem
             key={idx}
-            uuid={contact.uuid}
             nickname={contact.nickname}
             active={contact.isActive}
             onClick={() => handleSelectContact(idx)}

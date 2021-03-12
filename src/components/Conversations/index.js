@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { authSelector } from "../../slices/auth/authSlice";
 import { setSelectedConversationId } from "../../slices/selecteds";
 import { downConversation } from "../../transformers/conversation";
+import socket from "../../_utils/socket";
 
 const Conversations = () => {
   const [conversations, setConversations] = React.useState([]);
@@ -28,6 +29,7 @@ const Conversations = () => {
         })
       );
       dispatch(setSelectedConversationId(conId));
+      socket.emit("OPEN_CONVERSATION", { conversationId: conId });
     },
     [dispatch]
   );
@@ -36,12 +38,16 @@ const Conversations = () => {
     axios
       .get(`http://localhost:5000/api/conversation?uuid=${user.uuid}`)
       .then((result) => {
-        console.log(downConversation(result.data.data));
-        setConversations(downConversation(result.data.data));
+        setConversations(downConversation(result.data.data, user.uuid));
         dispatch(setSelectedConversationId(result.data.data[0]._id));
+        socket.emit("OPEN_CONVERSATION", {
+          conversationId: result.data.data[0]._id,
+        });
       })
-      .catch((err) => {});
-  }, [user.uuid]);
+      .catch((err) => {
+        console.log(err);
+      });
+  }, [dispatch, user.uuid]);
 
   return (
     <ListGroup variant="flush">

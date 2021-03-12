@@ -1,8 +1,13 @@
 import React from "react";
 import MessageView from "../../components/MessageView";
 import Sidebar from "../../components/Sidebar";
+import socket from "../../_utils/socket";
 
 const Dashboard = () => {
+  React.useEffect(() => {
+    return () => socket.disconnect();
+  }, []);
+
   return (
     <div className="container-fluid">
       <div className="row" style={{ height: "100vh" }}>
