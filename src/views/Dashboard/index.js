@@ -9,10 +9,10 @@ const Dashboard = () => {
   }, []);
 
   return (
-    <div className="container-fluid">
-      <div className="row" style={{ height: "100vh" }}>
-        <Sidebar className="col-3 d-flex flex-column pl-0" />
-        <MessageView className="col-9 pl-0 pr-0 d-flex flex-column" />
+    <div className="container-fluid" style={{ height: "100vh" }}>
+      <div className="row h-100">
+        <Sidebar className="col-xl-3 col-md-4 col-sm-5 pl-0 pr-0 d-flex flex-column h-100" />
+        <MessageView className="col-xl-9 col-md-8 col-sm-7 pl-0 pr-0 d-flex flex-column h-100" />
       </div>
     </div>
   );

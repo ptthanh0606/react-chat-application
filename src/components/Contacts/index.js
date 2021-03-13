@@ -23,38 +23,12 @@ const Contacts = () => {
       });
   }, [setContacts, userInfo.uuid]);
 
-  const handleSelectContact = React.useCallback((idx = 0) => {
-    setContacts((prev) => {
-      return prev.map((contact, i) => {
-        if (idx === i) {
-          return {
-            ...contact,
-            isActive: true,
-          };
-        }
-        return {
-          ...contact,
-          isActive: false,
-        };
-      });
-    });
-  }, []);
-
-  const handleStartConversation = React.useCallback((uuid) => {}, []);
-
   return (
     <ListGroup variant="flush">
       {(contacts &&
         contacts.length &&
         contacts.map((contact, idx) => (
-          <ContactItem
-            key={idx}
-            nickname={contact.nickname}
-            active={contact.isActive}
-            onClick={() => handleSelectContact(idx)}
-            onDoubleClick={() => handleStartConversation(contact.uuid)}
-            style={{ cursor: "pointer" }}
-          />
+          <ContactItem key={idx} nickname={contact.nickname} />
         ))) || (
         <div className="px-3 py-2">
           <span className="text-muted small">No contacts vailable</span>

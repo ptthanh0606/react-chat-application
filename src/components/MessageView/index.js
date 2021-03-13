@@ -13,6 +13,8 @@ const MessageView = ({ ...props }) => {
   const { uuid } = useSelector(authSelector);
   const [messages, setMessages] = React.useState([]);
   const [l, loadData] = React.useReducer(() => ({}));
+  const viewRef = React.useRef();
+  const tempRef = React.useRef();
 
   React.useEffect(() => {
     if (conversationId) {
@@ -22,6 +24,11 @@ const MessageView = ({ ...props }) => {
         )
         .then((result) => {
           setMessages(result.data.data);
+          viewRef.current.scrollIntoView({
+            behavior: "smooth",
+            block: "end",
+            inline: "nearest",
+          });
         })
         .catch((err) => {
           console.log(err);
@@ -32,22 +39,33 @@ const MessageView = ({ ...props }) => {
   React.useEffect(() => {
     socket.on("MESSAGE_INCOMMING", (data) => {
       loadData();
+      viewRef.current.scrollIntoView({
+        behavior: "smooth",
+        block: "end",
+        inline: "nearest",
+      });
     });
   }, []);
 
   return (
     <div {...props}>
       <div
-        className="flex-grow-1 pr-3 d-flex flex-column justify-content-end"
-        style={{ height: "80vh", overflowY: "scroll" }}
+        className="flex-grow-1 pl-3 pr-3 d-flex flex-column"
+        style={{ overflowY: "scroll" }}
       >
-        <div style={{ height: "120%" }}>
+        <div className="d-flex flex-column justify-content-end" ref={viewRef}>
           {(messages &&
             messages.length &&
             messages.map((msg, idx) => (
               <Message
                 className={`d-flex flex-column align-items-${
                   msg.nickname === uuid ? "end" : "start"
+                } ${
+                  msg.nickname === messages[idx + 1]?.nickname
+                    ? ""
+                    : msg.nickname === messages[idx - 1]?.nickname
+                    ? ""
+                    : "my-2"
                 }`}
                 style={{ margin: "1px 0" }}
                 noRadius={
@@ -84,7 +102,7 @@ const MessageView = ({ ...props }) => {
           )}
         </div>
       </div>
-      <ChatBox setMessages={setMessages} className="py-0 mt-3" />
+      <ChatBox setMessages={setMessages} className="pl-3" />
     </div>
   );
 };

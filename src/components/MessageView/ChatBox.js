@@ -51,7 +51,7 @@ const ChatBox = ({ setMessages = () => {}, ...props }) => {
 
   return (
     <Form {...props} onSubmit={formik.handleSubmit}>
-      <Form.Group className="d-flex align-items-center my-2">
+      <Form.Group className="d-flex align-items-center my-3">
         <Form.Control
           id="chatContent"
           name="chatContent"
