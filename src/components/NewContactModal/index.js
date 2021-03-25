@@ -1,8 +1,12 @@
+import axios from "axios";
 import { useFormik } from "formik";
 import React from "react";
 import { Button, Form, Modal } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
 import * as yup from "yup";
-import { useContacts } from "../../_contexts/ContactsProvider";
+import { authSelector } from "../../slices/auth/authSlice";
+import { triggerRefresh } from "../../slices/refresh";
 
 const validationSchema = yup.object().shape({
   userid: yup.string().required(),
@@ -10,14 +14,26 @@ const validationSchema = yup.object().shape({
 });
 
 const NewContactModal = ({ onHide = () => {} }) => {
-  const { createContact } = useContacts();
+  const { uuid } = useSelector(authSelector);
+  const dispatch = useDispatch();
 
   const handleCreateContact = React.useCallback(
     (data) => {
-      createContact(data);
-      onHide();
+      axios
+        .put(`http://localhost:5000/api/contact/addcontact?uuid=${uuid}`, {
+          uuid: data.userid,
+          nickname: data.username,
+        })
+        .then(() => {
+          dispatch(triggerRefresh());
+          onHide();
+        })
+        .catch((err) => {
+          toast.error(err.response.data);
+          onHide();
+        });
     },
-    [createContact, onHide]
+    [dispatch, onHide, uuid]
   );
 
   const formik = useFormik({

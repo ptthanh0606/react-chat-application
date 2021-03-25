@@ -11,7 +11,6 @@ const Message = ({
   const [radiusStyle, setRadiusStyle] = React.useState({});
 
   React.useEffect(() => {
-    console.log(noRadius);
     switch (noRadius) {
       case "top-left":
         setRadiusStyle({

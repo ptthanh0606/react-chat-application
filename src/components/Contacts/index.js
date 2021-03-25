@@ -3,12 +3,14 @@ import React from "react";
 import { ListGroup } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import { authSelector } from "../../slices/auth/authSlice";
+import { refreshSelector } from "../../slices/refresh";
 import { downContacts } from "../../transformers/contact";
 import ContactItem from "./ContactItem";
 
 const Contacts = () => {
   const [contacts, setContacts] = React.useState([]);
   const userInfo = useSelector(authSelector);
+  const r = useSelector(refreshSelector);
 
   React.useEffect(() => {
     axios
@@ -21,7 +23,7 @@ const Contacts = () => {
       .catch((err) => {
         console.error(err.message);
       });
-  }, [setContacts, userInfo.uuid]);
+  }, [setContacts, userInfo.uuid, r]);
 
   return (
     <ListGroup variant="flush">

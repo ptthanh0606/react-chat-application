@@ -6,7 +6,7 @@ import { setLoginMessage } from "../slices/auth/loginMessage";
 
 export const useLogin = () => {
   const dispatch = useDispatch();
-  const [isAuthenticated, setAuthenticatedState] = React.useState(false);
+  const [, setAuthenticatedState] = React.useState(false);
 
   const doLogin = React.useCallback(
     (loginInfo) => {
@@ -27,7 +27,9 @@ export const useLogin = () => {
               );
             } else {
               dispatch(
-                setLoginMessage("Incorrect password or email! Please try again.")
+                setLoginMessage(
+                  "Incorrect password or email! Please try again."
+                )
               );
             }
             setAuthenticatedState(false);

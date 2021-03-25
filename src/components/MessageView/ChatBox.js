@@ -55,7 +55,7 @@ const ChatBox = ({ setMessages = () => {}, ...props }) => {
         <Form.Control
           id="chatContent"
           name="chatContent"
-          autoFocus="true"
+          autoFocus={true}
           placeholder="Type a message..."
           onChange={formik.handleChange}
           value={formik.values.chatContent}

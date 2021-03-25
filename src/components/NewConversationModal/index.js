@@ -1,21 +1,34 @@
+import axios from "axios";
 import React from "react";
 import { Button, Form, Modal } from "react-bootstrap";
-import { useContacts } from "../../_contexts/ContactsProvider";
-import { useConversation } from "../../_contexts/ConversationsProvider";
+import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
+import { authSelector } from "../../slices/auth/authSlice";
+import { setSelectedConversationId } from "../../slices/selecteds";
 
 const NewConversationModal = ({ onHide = () => {} }) => {
+  const dispatch = useDispatch();
+  const currentUser = useSelector(authSelector);
   const [selectedContactIds, setSelectedContactIds] = React.useState([]);
-
-  const { contacts } = useContacts();
-  const { createConversation } = useConversation();
+  const [contacts, setContacts] = React.useState([]);
 
   const handleStartConversation = React.useCallback(
     (e) => {
       e.preventDefault();
-      createConversation(selectedContactIds.sort((a, b) => a - b));
-      onHide();
+      axios
+        .post(
+          `http://localhost:5000/api/conversation/startConversation?uuid=${currentUser.uuid}`,
+          selectedContactIds
+        )
+        .then((result) => {
+          dispatch(setSelectedConversationId(result.data.data._id));
+          onHide();
+        })
+        .catch((err) => {
+          toast.error(err);
+        });
     },
-    [createConversation, onHide, selectedContactIds]
+    [currentUser.uuid, dispatch, onHide, selectedContactIds]
   );
 
   const handleSelectedIdChange = React.useCallback((contactId) => {
@@ -28,6 +41,15 @@ const NewConversationModal = ({ onHide = () => {} }) => {
     });
   }, []);
 
+  React.useEffect(() => {
+    axios
+      .get(`http://localhost:5000/api/contact?uuid=${currentUser.uuid}`)
+      .then((result) => {
+        setContacts(result.data.data.savedPeople);
+      })
+      .catch((err) => {});
+  }, [currentUser.uuid]);
+
   return (
     <>
       <Modal.Header closeButton>New contact</Modal.Header>
@@ -36,13 +58,12 @@ const NewConversationModal = ({ onHide = () => {} }) => {
           {(contacts &&
             contacts.length &&
             contacts.map((contact) => (
-              <Form.Group key={contact.userid}>
+              <Form.Group key={contact.uuid}>
                 <Form.Check
-                  type="checkbox"
-                  label={contact.username}
+                  label={contact.nickname}
                   name="contactId"
-                  value={selectedContactIds.includes(contact.userid)}
-                  onChange={() => handleSelectedIdChange(contact.userid)}
+                  value={selectedContactIds.includes(contact.uuid)}
+                  onChange={() => handleSelectedIdChange(contact.uuid)}
                 />
               </Form.Group>
             ))) || <span className="text-muted">No contacts available!</span>}

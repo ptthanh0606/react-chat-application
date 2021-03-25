@@ -16,7 +16,7 @@ ReactDOM.render(
     <Provider store={store}>
       <Router>
         <App />
-        <ToastContainer position={"top-center"} />
+        <ToastContainer position={"bottom-left"} className="font-weight-bold" />
       </Router>
     </Provider>
   </React.StrictMode>,

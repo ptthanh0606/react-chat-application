@@ -43,7 +43,7 @@ const Login = ({ onCreateNewId = () => {} }) => {
         <Form.Group>
           <Form.Label>Your email</Form.Label>
           <Form.Control
-            autoFocus="true"
+            autoFocus={true}
             type="email"
             id="email"
             name="email"
