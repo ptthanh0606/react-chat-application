@@ -6,9 +6,9 @@ const WelcomePanel = () => {
   return (
     <Container className="h-100 d-flex flex-column align-items-center justify-content-center">
       <Logo height="50px" />
-      YOoo
+      Select a conversation to start
     </Container>
   );
 };
 
-export default WelcomePanel;
+export default React.memo(WelcomePanel);

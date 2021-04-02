@@ -9,6 +9,7 @@ import {
 } from "../../slices/selecteds";
 import { downConversation } from "../../transformers/conversation";
 import socket from "../../_utils/socket";
+import "./conversations.scss";
 
 const Conversations = () => {
   const [conversations, setConversations] = React.useState([]);
@@ -59,6 +60,7 @@ const Conversations = () => {
         conversations.length &&
         conversations.map((con, idx) => (
           <ListGroup.Item
+            className="ConversationItem"
             key={idx}
             active={con.isActive}
             style={{ cursor: "pointer" }}

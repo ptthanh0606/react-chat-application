@@ -1,0 +1,8 @@
+.ConversationItem {
+  transition: all 100ms ease-in-out;
+
+  &:hover {
+    background-color: #cce5ff;
+    color: #2a629e;
+  }
+}
