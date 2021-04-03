@@ -5,6 +5,7 @@ import { Button, Form, Modal } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import * as yup from "yup";
+import { addContact } from "../../api";
 import { authSelector } from "../../slices/auth/authSlice";
 import { triggerRefresh } from "../../slices/refresh";
 
@@ -20,7 +21,7 @@ const NewContactModal = ({ onHide = () => {} }) => {
   const handleCreateContact = React.useCallback(
     (data) => {
       axios
-        .put(`http://localhost:5000/api/contact/addcontact?uuid=${uuid}`, {
+        .put(addContact(uuid), {
           uuid: data.userid,
           nickname: data.username,
         })

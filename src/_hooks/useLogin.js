@@ -1,6 +1,7 @@
 import axios from "axios";
 import React from "react";
 import { useDispatch } from "react-redux";
+import { login } from "../api";
 import { setUserInfo } from "../slices/auth/authSlice";
 import { setLoginMessage } from "../slices/auth/loginMessage";
 
@@ -12,7 +13,7 @@ export const useLogin = () => {
     (loginInfo) => {
       return new Promise((resolve, reject) => {
         axios
-          .post("http://localhost:5000/api/user/login", loginInfo)
+          .post(login, loginInfo)
           .then((result) => {
             dispatch(setUserInfo(result.data.data));
             setAuthenticatedState(true);

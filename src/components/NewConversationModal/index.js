@@ -3,6 +3,7 @@ import React from "react";
 import { Button, Form, Modal } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
+import { getContacts, startConversation } from "../../api";
 import { authSelector } from "../../slices/auth/authSlice";
 import { setSelectedConversationId } from "../../slices/selecteds";
 
@@ -16,10 +17,7 @@ const NewConversationModal = ({ onHide = () => {} }) => {
     (e) => {
       e.preventDefault();
       axios
-        .post(
-          `http://localhost:5000/api/conversation/startConversation?uuid=${currentUser.uuid}`,
-          selectedContactIds
-        )
+        .post(startConversation(currentUser.uuid), selectedContactIds)
         .then((result) => {
           dispatch(setSelectedConversationId(result.data.data._id));
           onHide();
@@ -43,7 +41,7 @@ const NewConversationModal = ({ onHide = () => {} }) => {
 
   React.useEffect(() => {
     axios
-      .get(`http://localhost:5000/api/contact?uuid=${currentUser.uuid}`)
+      .get(getContacts(currentUser.uuid))
       .then((result) => {
         setContacts(result.data.data.savedPeople);
       })

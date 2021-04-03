@@ -4,6 +4,7 @@ import React from "react";
 import { Button, Form } from "react-bootstrap";
 import { IoPaperPlane } from "react-icons/io5";
 import { useSelector } from "react-redux";
+import { sendMessage } from "../../api";
 import { authSelector } from "../../slices/auth/authSlice";
 import { selectedsSelector } from "../../slices/selecteds";
 import socket from "../../_utils/socket";
@@ -23,13 +24,10 @@ const ChatBox = ({ setMessages = () => {}, ...props }) => {
           },
         ]);
         axios
-          .put(
-            `http://localhost:5000/api/message/sendMessage?conversationId=${conversationId}`,
-            {
-              content: chatContent,
-              uuid,
-            }
-          )
+          .put(sendMessage(conversationId), {
+            content: chatContent,
+            uuid,
+          })
           .then(() => {
             socket.emit("CLIENT_MESSAGE_SEND", {
               content: chatContent,

@@ -8,6 +8,7 @@ import Message from "./Message";
 import ChatBox from "./ChatBox";
 import socket from "../../_utils/socket";
 import WelcomePanel from "../WelcomePanel";
+import { getMessages } from "../../api";
 
 const MessageView = ({ ...props }) => {
   const { conversationId } = useSelector(selectedsSelector);
@@ -19,12 +20,9 @@ const MessageView = ({ ...props }) => {
   React.useEffect(() => {
     if (conversationId) {
       axios
-        .get(
-          `http://localhost:5000/api/message?conversationId=${conversationId}&uuid=${uuid}`
-        )
+        .get(getMessages(conversationId, uuid))
         .then((result) => {
           setMessages(result.data.data);
-          console.log(result.data.data);
         })
         .catch((err) => {
           console.log(err);

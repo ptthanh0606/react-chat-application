@@ -6,6 +6,7 @@ import { authSelector } from "../../slices/auth/authSlice";
 import { refreshSelector } from "../../slices/refresh";
 import { downContacts } from "../../transformers/contact";
 import ContactItem from "./ContactItem";
+import { getContacts } from "../../api";
 
 const Contacts = () => {
   const [contacts, setContacts] = React.useState([]);
@@ -14,7 +15,7 @@ const Contacts = () => {
 
   React.useEffect(() => {
     axios
-      .get(`http://localhost:5000/api/contact?uuid=${userInfo.uuid}`)
+      .get(getContacts(userInfo.uuid))
       .then((result) => {
         if (result.data.data) {
           setContacts(downContacts(result.data.data.savedPeople));

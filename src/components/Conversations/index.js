@@ -2,6 +2,7 @@ import axios from "axios";
 import React from "react";
 import { ListGroup } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
+import { getConversations } from "../../api";
 import { authSelector } from "../../slices/auth/authSlice";
 import {
   selectedsSelector,
@@ -26,7 +27,7 @@ const Conversations = () => {
 
   React.useEffect(() => {
     axios
-      .get(`http://localhost:5000/api/conversation?uuid=${user.uuid}`)
+      .get(getConversations(user.uuid))
       .then((result) => {
         setConversations(() =>
           downConversation(result.data.data, user.uuid).map((con) => {
