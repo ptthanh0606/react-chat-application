@@ -121,7 +121,7 @@ const Login = ({ onCreateNewId = () => {} }) => {
                   Create new account id
                 </Button>
               </div>
-              <span className="ml-2 text-danger">{loginMessage}</span>
+              <span className="text-danger">{loginMessage}</span>
             </Form>
           </div>
         </div>
