@@ -1,0 +1,1 @@
+{"version":3,"sources":["webpack://src/components/Conversations/conversations.scss"],"names":[],"mappings":"AAAA,kBACE,8BAAiC,CADnC,wBAII,wBAAyB,CACzB,aAAc","file":"6.ddd3ac5f.chunk.css","sourcesContent":[".ConversationItem {\r\n  transition: all 100ms ease-in-out;\r\n\r\n  &:hover {\r\n    background-color: #cce5ff;\r\n    color: #2a629e;\r\n  }\r\n}\r\n"]}
