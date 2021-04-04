@@ -108,18 +108,18 @@ const Login = ({ onCreateNewId = () => {} }) => {
                   isLoading={isLoading}
                   name="login"
                   type="submit"
-                  className="mr-2 mb-1"
+                  className="mr-2 mb-1 action-btn"
                 >
                   Get started
                 </PTAButton>
-                <Button
-                  className="mb-1"
+                <PTAButton
+                  className="mb-1 action-btn"
                   variant="secondary"
                   name="createaccount"
                   onClick={handleCreateNewId}
                 >
                   Create new account id
-                </Button>
+                </PTAButton>
               </div>
               <span className="text-danger">{loginMessage}</span>
             </Form>

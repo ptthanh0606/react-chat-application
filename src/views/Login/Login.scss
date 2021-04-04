@@ -9,8 +9,12 @@
 
   @media screen and (max-width: 600px) {
     .left {
-      flex: 2;
+      flex: 7;
       padding: 1.5rem 2rem !important;
+
+      .action-btn {
+        width: 100%;
+      }
     }
   }
 

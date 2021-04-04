@@ -9,7 +9,7 @@ const PTAButton = ({ isLoading = false, ...props }) => {
     <Button
       {...props}
       disabled={isLoading}
-      className={`${props.className} ${(isLoading && "loading") || ""}`}
+      className={`${props.className} PTAButton ${(isLoading && "loading") || ""}`}
     >
       {isLoading ? (
         <ReactLoading
