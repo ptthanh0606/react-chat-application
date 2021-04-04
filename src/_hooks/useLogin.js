@@ -44,4 +44,4 @@ export const useLogin = () => {
   return (loginInfo) => doLogin(loginInfo);
 };
 
-export default React.memo(useLogin);
+export default useLogin;
