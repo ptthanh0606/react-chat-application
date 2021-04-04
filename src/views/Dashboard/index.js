@@ -5,6 +5,7 @@ import socket from "../../_utils/socket";
 
 const Dashboard = () => {
   React.useEffect(() => {
+    document.title = "PTA | Messages";
     return () => socket.disconnect();
   }, []);
 
